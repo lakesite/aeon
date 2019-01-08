@@ -4,12 +4,12 @@ if [ ! -e "/home/vagrant/provisioned" ]
 then
     apt-get update
     apt-get -y upgrade
-    apt-get -y install supervisor git python3 python3-dev python3-setuptools python3-pip python-virtualenv mysql-client
+    apt-get -y install supervisor git python3 python3-dev python3-setuptools python3-pip python-virtualenv mysql-client libmysqlclient-dev
 
     # Mysql install
     echo 'mysql-server mysql-server/root_password password aeon' | debconf-set-selections
     echo 'mysql-server mysql-server/root_password_again password aeon' | debconf-set-selections
-    apt-get install -y mysql-server-5.5 > /dev/null 2>&1
+    apt-get install -y mysql-server > /dev/null 2>&1
 
     # Mysql setup
     mysqladmin -uroot -paeon create aeon || exit 1
@@ -18,12 +18,20 @@ then
     mysqladmin -uroot -paeon flush-privileges || exit 1
 
     # Install the virtualenv in ~vagrant but the project in /vagrant.
-    sudo -u vagrant -s <<'EOF' || exit 1
+    sudo -u vagrant -H -s <<EOF || exit 1
 cd /vagrant/
-virtualenv -p /usr/bin/python3.4 /home/vagrant/env
+virtualenv -p /usr/bin/python3.6 /home/vagrant/env
 source /home/vagrant/env/bin/activate
 pip install -r requirements.txt
 EOF
+
+    # using the installed virtualenv, run any necessary migrations, etc.
+    sudo -u vagrant -H -s <<EOF || exit 1
+cd /vagrant/aeon_project
+source /home/vagrant/env/bin/activate
+/home/vagrant/env/bin/python manage.py migrate
+EOF
+
 
     cat <<'EOF' > /etc/supervisor/conf.d/runserver.conf
 [program:runserver]

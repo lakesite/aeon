@@ -1,6 +1,14 @@
 from django.contrib.auth.models import User, Group
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from rest_framework import viewsets
-from aeon.serializers import UserSerializer, GroupSerializer
+
+from aeon.models import (
+    Organization
+)
+from aeon.serializers import (
+    UserSerializer, GroupSerializer, OrganizationSerializer
+)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -17,3 +25,11 @@ class GroupViewSet(viewsets.ModelViewSet):
   """
   queryset = Group.objects.all()
   serializer_class = GroupSerializer
+
+
+class OrganizationViewSet(viewsets.ModelViewSet):
+  """
+  API endpoint that allows organizations to be viewed or edited
+  """
+  queryset = Organization.objects.all()
+  serializer_class = OrganizationSerializer
