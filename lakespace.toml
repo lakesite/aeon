@@ -1,0 +1,17 @@
+[aeon]
+browser = "firefox"
+tabs = [
+  "https://github.com/lakesite/aeon/",
+  "http://localhost:8000/api/v1/",
+  "http://localhost:8000/admin"
+]
+
+[docs]
+browser = "firefox"
+tabs = [
+  "https://www.django-rest-framework.org/tutorial/quickstart/"
+]
+
+[ide]
+editor = "atom"
+project_directory = "."
