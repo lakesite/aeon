@@ -3,6 +3,8 @@
 A private monitoring API which aggregates quality issues into a simple
 summary for overall health for the lifespan of an application.
 
+[![Known Vulnerabilities](https://snyk.io/test/github/lakesite/aeon/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/lakesite/aeon?targetFile=requirements.txt)
+
 ## Running #
 
   $ vagrant up
@@ -47,7 +49,7 @@ sent via IRC, Slack, or IM:
 
 Status event records belong to an organization, and may reference an
 application, system, and/or service.  Applications should include status reports
-that are central to the app itself, such as versioneye or sentry reports.
+that are central to the app itself, such as snyk or sentry reports.
 Services may include logs or events from
 
 ### Organization ###
